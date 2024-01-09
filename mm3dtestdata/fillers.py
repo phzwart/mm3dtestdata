@@ -2,7 +2,7 @@
 from scipy.stats.qmc import PoissonDisk
 import numpy as np
 from scipy.spatial.distance import cdist
-import numpy as np
+
 
 def fill_sphere(center, radius, volume, class_map, instance_map, instance_label, class_label=2, density=1.0):
     """
@@ -32,11 +32,12 @@ def fill_sphere(center, radius, volume, class_map, instance_map, instance_label,
     """
     assert radius > 1
     x, y, z = np.indices(volume.shape)
-    dist_sq = (x - center[0])**2 + (y - center[1])**2 + (z - center[2])**2
-    inside_sphere = dist_sq < (radius**2)
+    dist_sq = (x - center[0]) ** 2 + (y - center[1]) ** 2 + (z - center[2]) ** 2
+    inside_sphere = dist_sq < (radius ** 2)
     volume[inside_sphere] = density
     class_map[inside_sphere] = class_label
     instance_map[inside_sphere] = instance_label
+
 
 def random_rotation_matrix():
     """
@@ -60,9 +61,9 @@ def random_rotation_matrix():
 
     # Construct the corresponding rotation matrix
     rot_matrix = np.array([
-        [1 - 2*q2*q2 - 2*q3*q3, 2*q1*q2 - 2*q3*q0,     2*q1*q3 + 2*q2*q0],
-        [2*q1*q2 + 2*q3*q0,     1 - 2*q1*q1 - 2*q3*q3, 2*q2*q3 - 2*q1*q0],
-        [2*q1*q3 - 2*q2*q0,     2*q2*q3 + 2*q1*q0,     1 - 2*q1*q1 - 2*q2*q2]
+        [1 - 2 * q2 * q2 - 2 * q3 * q3, 2 * q1 * q2 - 2 * q3 * q0, 2 * q1 * q3 + 2 * q2 * q0],
+        [2 * q1 * q2 + 2 * q3 * q0, 1 - 2 * q1 * q1 - 2 * q3 * q3, 2 * q2 * q3 - 2 * q1 * q0],
+        [2 * q1 * q3 - 2 * q2 * q0, 2 * q2 * q3 + 2 * q1 * q0, 1 - 2 * q1 * q1 - 2 * q2 * q2]
     ])
 
     return rot_matrix
@@ -114,11 +115,12 @@ def fill_ellipsoid(center,
     z -= center[2]
     if rotation_matrix is None:
         rotation_matrix = random_rotation_matrix()
+
     rotated_coords = np.dot(rotation_matrix, np.array([x.ravel(), y.ravel(), z.ravel()]))
     x_rotated, y_rotated, z_rotated = rotated_coords.reshape(3, *volume.shape)
-    dist_sq_x = (x_rotated / major_axis)**2
-    dist_sq_y = (y_rotated / minor_axis)**2
-    dist_sq_z = (z_rotated / minor_axis)**2
+    dist_sq_x = (x_rotated / major_axis) ** 2
+    dist_sq_y = (y_rotated / minor_axis) ** 2
+    dist_sq_z = (z_rotated / minor_axis) ** 2
     inside_ellipsoid = dist_sq_x + dist_sq_y + dist_sq_z < 1
     volume[inside_ellipsoid] = density
     class_map[inside_ellipsoid] = class_label
@@ -132,16 +134,10 @@ def matrix(center, radius, volume, class_map, instance_map, instance_label, clas
     fill_sphere(center, radius,
                 tmp_volume, tmp_class_map, tmp_instance_map,
                 instance_label=instance_label, class_label=class_label, density=density)
-    sel =  (class_map < sel_label) & (tmp_class_map > 0)
+    sel = (class_map < sel_label) & (tmp_class_map > 0)
     volume[sel] = tmp_volume[sel]
     class_map[sel] = tmp_class_map[sel]
     instance_map[sel] = tmp_instance_map[sel]
-
-
-
-
-
-
 
 
 def array_to_ascii_art(array, ascii_chars=".*:-=+#%@"):
@@ -159,7 +155,7 @@ def array_to_ascii_art(array, ascii_chars=".*:-=+#%@"):
         A string representing the ASCII art of the input array.
     """
     # Normalize the array
-    normalized_array = (array - array.min()) / (array.max() - array.min()+1e-8)
+    normalized_array = (array - array.min()) / (array.max() - array.min() + 1e-8)
 
     # Map values to characters
     ascii_art = ""
