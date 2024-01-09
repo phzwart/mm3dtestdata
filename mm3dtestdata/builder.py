@@ -228,9 +228,7 @@ class balls_and_eggs(object):
 if __name__ == "__main__":
     obj = balls_and_eggs(scale=64)
     v1,i1,c1 = obj.fill()
-    #obj.perturb(shake=2.0)
-    #obj.perturb(cut={'z':30, 'dz':5})
-    obj.perturb(erase=0.1)
+    obj.perturb(shake=2.0, cut={'z':30, 'dz':5}, (erase=0.1)
     v2,i2,c2 = obj.fill()
 
     import napari
