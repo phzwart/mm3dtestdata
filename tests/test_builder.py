@@ -161,7 +161,3 @@ def test_build():
     v1, i1, c1 = obj.fill()
     result = fillers.array_to_ascii_art(i1[40, ...])
     assert result == expected_result_0
-
-
-if __name__ == "__main__":
-    test_build()

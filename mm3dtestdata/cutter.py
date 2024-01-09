@@ -99,15 +99,3 @@ class schaaf(object):
         f = einops.rearrange(f, "(X Y) -> Y X", X=N, Y=N)
         return f
 
-
-if __name__ == "__main__":
-    import napari
-
-    bobj = builder.balls_and_eggs(scale=32, border=5)
-    v, i, c = bobj.fill()
-    sobj = schaaf(v.shape)
-    f = sobj.plakje((1, 0, 0), (16., 16., 16.), 32, 1, i)
-    vv = napari.view_image(f)
-    _ = vv.add_image(i)
-
-    input()

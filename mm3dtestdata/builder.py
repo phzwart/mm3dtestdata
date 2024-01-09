@@ -207,21 +207,3 @@ class balls_and_eggs(object):
         self.eraser = self.eraser * 0 + 1
         self.delta = self.delta * 0
 
-
-if __name__ == "__main__":
-    obj = balls_and_eggs(scale=256)
-    v1, i1, c1 = obj.fill()
-    obj.perturb(shake=2.0, cut={'z': 30, 'dz': 5}, erase=0.1)
-    v2, i2, c2 = obj.fill()
-
-    import napari
-
-    vv = napari.view_image(v1)
-    _ = vv.add_labels(i1)
-    _ = vv.add_labels(c1)
-
-    _ = vv.add_image(v2)
-    _ = vv.add_labels(i2)
-    _ = vv.add_labels(c2)
-
-    input()

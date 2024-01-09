@@ -452,10 +452,3 @@ def test_matrix():
 """
 
     assert result.replace("\n", "") == expected_result.replace("\n", "")
-
-
-if __name__ == "__main__":
-    test_sphere()
-    test_ellipsoid()
-    test_both()
-    test_matrix()

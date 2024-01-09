@@ -32,6 +32,7 @@ def test_schaaf(eps=1e-5):
     dd = (dx + dy + dz) / 3.0
     assert dd < eps
 
+    with pytest.raises(ValueError) as excinfo:
+        _ = sobj.plakje((0, 0, 0), (16.0, 16.0, 16.0), 32, 1, i)
+        assert 'ValueError' in str(excinfo.value)
 
-if __name__ == "__main__":
-    test_schaaf()
