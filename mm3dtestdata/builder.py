@@ -21,6 +21,23 @@ class balls_and_eggs(object):
                  ellipsoid_density = 1.0,
                  seed = None
                  ):
+        """
+        Initializes the balls_and_eggs object, generating a set of coordinates within a specified space.
+
+        Parameters:
+        - scale (int): The scale of the space.
+        - radius (int): The radius for Poisson disk sampling.
+        - border (int): The border width for excluding coordinates near edges.
+        - fraction (float): Fraction determining the mix of spheres and ellipsoids.
+        - k0, k1 (float): Scaling factors for sphere and ellipsoid sizes.
+        - delta (float): Perturbation factor for object positions.
+        - mean_scale (float): Mean scale factor for objects.
+        - matrix_radius_factor (float): Scaling factor for the matrix radius.
+        - matrix_density (float): Density of the matrix.
+        - sphere_density (float): Density of spheres.
+        - ellipsoid_density (float): Density of ellipsoids.
+        - seed (int, optional): Seed for random number generation. None for random seed.
+        """
         self.scale = scale
         self.radius = radius
         self.border = border
@@ -69,6 +86,14 @@ class balls_and_eggs(object):
         self.eraser = np.ones(self.xyz.shape[0])
 
     def fill(self):
+        """
+        Fills the defined space with spheres and ellipsoids according to the object's properties.
+
+        Returns:
+        - volume (numpy.ndarray): A 3D array representing the filled volume.
+        - instance_map (numpy.ndarray): A 3D array mapping each instance in the volume.
+        - class_map (numpy.ndarray): A 3D array mapping the class of each item in the volume.
+        """
         N = int(self.scale)
         volume = np.zeros( (N,N,N) )
         class_map = np.zeros_like(volume).astype(int)
@@ -116,16 +141,44 @@ class balls_and_eggs(object):
         return volume, instance_map, class_map
 
     def _shake(self, rmsd=2.0):
+        """
+        Generates a random perturbation to be applied to objects' positions.
+
+        Parameters:
+        - rmsd (float): The root mean square deviation for the perturbation.
+
+        Returns:
+        - numpy.ndarray: An array of perturbations for each coordinate.
+        """
         d = np.random.normal(0,rmsd**2.0/3.0, self.delta.shape)
         return d
 
     def _cut(self, z, dz):
+        """
+        Cuts the objects in the volume above a certain z-coordinate and shifts the objects.
+
+        Parameters:
+        - z (float): The z-coordinate above which objects are cut.
+        - dz (float): The displacement in the z-direction.
+
+        Returns:
+        - numpy.ndarray: An array of displacements for each coordinate.
+        """
         sel = self.xyz [:,-1] > z
         d = np.zeros_like(self.delta)
         d[sel,-1] = dz
         return d
 
     def _erase(self, fraction=0.05):
+        """
+        Randomly erases a fraction of objects from the volume.
+
+        Parameters:
+        - fraction (float): Fraction of objects to be erased.
+
+        Returns:
+        - numpy.ndarray: Indices of the objects to be erased.
+        """
         N_items = self.xyz.shape[0]
         pick_M = max(1, int(N_items*fraction))
         s = np.arange(N_items)
@@ -133,6 +186,14 @@ class balls_and_eggs(object):
         return these_indices
 
     def perturb(self, shake=None, cut=None, erase=None):
+        """
+        Applies perturbations to the objects in the form of shake, cut, and erase.
+
+        Parameters:
+        - shake (float, optional): The rmsd value for shaking. If None, shaking is not applied.
+        - cut (dict, optional): Parameters for cutting {'z': value, 'dz': value}. If None, cutting is not applied.
+        - erase (float, optional): Fraction of objects to erase. If None, erasing is not applied.
+        """
         if shake is not None:
             self.delta += self._shake(shake)
         if cut is not None:
@@ -141,6 +202,9 @@ class balls_and_eggs(object):
             self.eraser[self._erase(erase)]=0
 
     def reset(self):
+        """
+        Resets the eraser and delta properties of the object to their initial states.
+        """
         self.eraser = self.eraser*0+1
         self.delta = self.delta*0
 
