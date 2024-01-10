@@ -14,8 +14,8 @@ np.random.seed(142)
 def test_sphere():
     N = 32
     volume = np.zeros((N, N, N))
-    class_map = np.zeros((N, N, N)).astype(np.int8)
-    instance_map = np.zeros((N, N, N)).astype(np.int8)
+    class_map = np.zeros((N, N, N)).astype(int)
+    instance_map = np.zeros((N, N, N)).astype(int)
 
     xyz = (N / 2.0, N / 2.0, N / 2.0)
     fillers.fill_sphere(center=xyz,
@@ -111,8 +111,8 @@ def test_sphere():
 def test_ellipsoid():
     N = 32
     volume = np.zeros((N, N, N))
-    class_map = np.zeros((N, N, N)).astype(np.int8)
-    instance_map = np.zeros((N, N, N)).astype(np.int8)
+    class_map = np.zeros((N, N, N)).astype(int)
+    instance_map = np.zeros((N, N, N)).astype(int)
 
     xyz = (N / 2.0, N / 2.0, N / 2.0)
     fillers.fill_ellipsoid(center=xyz,
@@ -246,8 +246,8 @@ def test_ellipsoid():
 def test_both():
     N = 32
     volume = np.zeros((N, N, N))
-    class_map = np.zeros((N, N, N)).astype(np.int8)
-    instance_map = np.zeros((N, N, N)).astype(np.int8)
+    class_map = np.zeros((N, N, N)).astype(int)
+    instance_map = np.zeros((N, N, N)).astype(int)
 
     xyz = (N / 2.0, N / 4.0, N / 4.0)
     fillers.fill_ellipsoid(center=xyz,
@@ -382,8 +382,8 @@ def test_both():
 def test_matrix():
     N = 32
     volume = np.zeros((N, N, N))
-    class_map = np.zeros((N, N, N)).astype(np.int8)
-    instance_map = np.zeros((N, N, N)).astype(np.int8)
+    class_map = np.zeros((N, N, N)).astype(int)
+    instance_map = np.zeros((N, N, N)).astype(int)
 
     xyz = (N / 2.0, N / 4.0, N / 4.0)
     fillers.fill_ellipsoid(center=xyz,

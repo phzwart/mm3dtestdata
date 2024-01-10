@@ -137,6 +137,7 @@ class balls_and_eggs(object):
                        instance_map,
                        1,
                        )
+
         return volume, instance_map, class_map
 
     def _shake(self, rmsd=2.0):
