@@ -30,3 +30,10 @@ def array_to_ascii_art(array, ascii_chars=".*:-=+#%@"):
         ascii_art += ''.join([ascii_chars[int(val * (len(ascii_chars) - 1))] for val in row]) + "\n"
 
     return ascii_art
+
+
+def test():
+    result = array_to_ascii_art(np.array([[0,1,2,3,4,5,6,7]]).astype(int))[:-1]
+    cs = compute_checksum('.*:-=+#%')
+    assert cs == compute_checksum((result))
+
