@@ -10,6 +10,9 @@ import einops
 class schaaf(object):
     def __init__(self, shape):
         self.shape = shape
+        if len(shape)==4:
+            self.shape = shape[1:]
+
 
     def plane_equation(self, normal, point):
         """
@@ -92,10 +95,43 @@ class schaaf(object):
 
         return interpolated_values
 
-    def plakje(self, normal, point, N, spacing, data, method="linear"):
+    def _plakje(self, normal, point, N, spacing, data, method="linear"):
         plane_eq = self.plane_equation(normal, point)
         plane_points, _ = self.sample_plane(plane_eq, point, N, spacing)
         f = self.interpolate_block_scipy(plane_points, data, method)
         f = einops.rearrange(f, "(X Y) -> Y X", X=N, Y=N)
         return f
+
+    def plakje(self, normal, point, N, spacing, data, method="linear"):
+        """
+        Interpolate values from a multi-channel 3D block at the positions defined by plane_points.
+
+        Parameters:
+        normal (tuple): Normal vector of the plane.
+        point (tuple): A point on the plane.
+        N (int): Size of the grid to sample on the plane.
+        spacing (float): Spacing between grid points.
+        data (np.array): 4D array representing the block, with shape (C, N, N, N).
+        method (str): Interpolation method - 'linear', 'nearest', etc.
+
+        Returns:
+        np.array: Interpolated values at the plane points for each channel, with shape (C, M, M, M).
+        """
+        plane_eq = self.plane_equation(normal, point)
+        plane_points, _ = self.sample_plane(plane_eq, point, N, spacing)
+
+        if len(data.shape) == 3:
+            return self._plakje(normal, point, N, spacing, data, method)
+
+        # Initialize an empty list to store interpolated results for each channel
+        interpolated_channels = []
+
+        # Loop over each channel and interpolate
+        for channel in range(data.shape[0]):
+            interpolated_values = self.interpolate_block_scipy(plane_points, data[channel], method)
+            interpolated_values = einops.rearrange(interpolated_values, "(X Y) -> Y X", X=N, Y=N)
+            interpolated_channels.append(interpolated_values)
+
+        # Stack the interpolated results along a new axis
+        return np.stack(interpolated_channels)
 
