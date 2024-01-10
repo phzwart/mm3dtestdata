@@ -9,6 +9,7 @@ import random
 import os
 from mm3dtestdata import fillers
 from mm3dtestdata import builder
+import utils
 
 np.random.seed(142)
 
@@ -16,7 +17,7 @@ np.random.seed(142)
 def test_build():
     obj = builder.balls_and_eggs(scale=64, seed=42)
     v1, i1, c1 = obj.fill()
-    result = fillers.array_to_ascii_art(i1[40, ...])
+    result = utils.array_to_ascii_art(i1[40, ...])
 
     expected_result_0 = """................................................................
 ................................................................
@@ -89,7 +90,7 @@ def test_build():
 
     obj.perturb(shake=2.0, cut={'z': 30, 'dz': 5}, erase=0.1)
     v2, i2, c2 = obj.fill()
-    result = fillers.array_to_ascii_art(i2[40, ...])
+    result = utils.array_to_ascii_art(i2[40, ...])
     assert not (result == expected_result_0)
     expected_result_1 = """................................................................
 ................................................................
@@ -159,5 +160,5 @@ def test_build():
     assert result == expected_result_1
     obj.reset()
     v1, i1, c1 = obj.fill()
-    result = fillers.array_to_ascii_art(i1[40, ...])
+    result = utils.array_to_ascii_art(i1[40, ...])
     assert result == expected_result_0

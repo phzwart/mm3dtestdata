@@ -7,6 +7,7 @@ import pytest
 import numpy as np
 
 from mm3dtestdata import fillers
+import utils
 
 np.random.seed(142)
 
@@ -25,7 +26,7 @@ def test_sphere():
                         instance_map=instance_map,
                         instance_label=1,
                         class_label=2)
-    result = fillers.array_to_ascii_art(class_map[N // 2, ...])
+    result = utils.array_to_ascii_art(class_map[N // 2, ...])
 
     assert np.min(volume) == 0
     assert np.max(volume) == 1.0
@@ -71,7 +72,7 @@ def test_sphere():
 ................................
 """
     assert result == expected_result
-    result = fillers.array_to_ascii_art(class_map[0, ...])
+    result = utils.array_to_ascii_art(class_map[0, ...])
     expected_result = """................................
 ................................
 ................................
@@ -134,7 +135,7 @@ def test_ellipsoid():
     sel_instance = instance_map > 0
     assert np.array_equal(sel_instance, sel_class)
 
-    result = fillers.array_to_ascii_art(class_map[N // 2, ...])
+    result = utils.array_to_ascii_art(class_map[N // 2, ...])
     expected_result = """................................
 ................................
 ................................
@@ -170,7 +171,7 @@ def test_ellipsoid():
 """
     assert result == expected_result
 
-    result = fillers.array_to_ascii_art(class_map[:, N // 2, :])
+    result = utils.array_to_ascii_art(class_map[:, N // 2, :])
     expected_result = """................................
 ................................
 ................................
@@ -206,7 +207,7 @@ def test_ellipsoid():
 """
     assert result == expected_result
 
-    result = fillers.array_to_ascii_art(class_map[:, :, N // 2])
+    result = utils.array_to_ascii_art(class_map[:, :, N // 2])
     expected_result = """................................
 ................................
 ................................
@@ -269,7 +270,7 @@ def test_both():
                         instance_label=6,
                         class_label=2)
 
-    result = fillers.array_to_ascii_art(class_map[N // 2, ...])
+    result = utils.array_to_ascii_art(class_map[N // 2, ...])
     expected_result = """................................
 ................................
 ................................
@@ -305,7 +306,7 @@ def test_both():
 """
     assert result == expected_result
 
-    result = fillers.array_to_ascii_art(volume[N // 2, ...])
+    result = utils.array_to_ascii_art(volume[N // 2, ...])
     expected_result = """................................
 ................................
 ................................
@@ -341,7 +342,7 @@ def test_both():
 """
     assert result == expected_result
 
-    result = fillers.array_to_ascii_art(instance_map[N // 2, ...])
+    result = utils.array_to_ascii_art(instance_map[N // 2, ...])
     expected_result = """................................
 ................................
 ................................
@@ -415,7 +416,7 @@ def test_matrix():
                    class_label=1,
                    sel_label=2)
 
-    result = fillers.array_to_ascii_art(class_map[N // 2, ...])
+    result = utils.array_to_ascii_art(class_map[N // 2, ...])
 
     expected_result = """........:::::::::::::::::.......
 .......:::::::::::::::::::......

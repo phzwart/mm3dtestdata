@@ -3,7 +3,6 @@
 """Tests for `mm3dtestdata` package."""
 
 import pytest
-import hashlib
 
 import numpy as np
 import random
@@ -12,26 +11,24 @@ from mm3dtestdata import fillers
 from mm3dtestdata import builder
 from mm3dtestdata import blur
 
+import utils
+
 np.random.seed(142)
 
 
-def compute_checksum(input_string):
-    sha256 = hashlib.sha256()
-    sha256.update(input_string.encode())
-    return sha256.hexdigest()
 
 
 def test_all():
     obj = builder.balls_and_eggs(scale=32, border=5, seed=42)
     _, _, class_map = obj.fill()
     new_class_map = blur.blur_it(class_map, 0.5)
-    tmp1 = fillers.array_to_ascii_art(new_class_map[1, 16, ...])
-    tmp2 = fillers.array_to_ascii_art(new_class_map[2, 16, ...])
-    tmp3 = fillers.array_to_ascii_art(new_class_map[3, 16, ...])
+    tmp1 = utils.array_to_ascii_art(new_class_map[1, 16, ...])
+    tmp2 = utils.array_to_ascii_art(new_class_map[2, 16, ...])
+    tmp3 = utils.array_to_ascii_art(new_class_map[3, 16, ...])
 
-    cs1 = compute_checksum(tmp1)
-    cs2 = compute_checksum(tmp2)
-    cs3 = compute_checksum(tmp3)
+    cs1 = utils.compute_checksum(tmp1)
+    cs2 = utils.compute_checksum(tmp2)
+    cs3 = utils.compute_checksum(tmp3)
 
     ref_cs1 = "a205895d1d6e72ec9754864f0dd94ea759264fb4bb7d0d4204fa95da6b859a85"
     ref_cs2 = "71511f711ef2d757493dfee1e350f22327bc3826da8f98c351d8ef22d95b1a0a"
