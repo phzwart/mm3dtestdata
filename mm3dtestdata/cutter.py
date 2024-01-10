@@ -48,9 +48,9 @@ class schaaf(object):
         x0, y0, z0 = central_point
 
         # Create ranges for the grid, centered around the central_point
-        x_range = np.arange(x0 - grid_size / 2, x0 + grid_size / 2, step_size)
-        y_range = np.arange(y0 - grid_size / 2, y0 + grid_size / 2, step_size)
-        z_range = np.arange(z0 - grid_size / 2, z0 + grid_size / 2, step_size)
+        x_range = np.linspace(x0 - grid_size*step_size / 2, x0 + grid_size*step_size / 2, grid_size, False)
+        y_range = np.linspace(y0 - grid_size*step_size / 2, y0 + grid_size*step_size / 2, grid_size, False)
+        z_range = np.linspace(z0 - grid_size*step_size / 2, z0 + grid_size*step_size / 2, grid_size, False)
 
         if C != 0:
             X, Y = np.meshgrid(x_range, y_range)

@@ -107,7 +107,7 @@ class balls_and_eggs(object):
                                                                        ):
             if erased > 0:
                 if shape == 'sphere':
-                    fillers.fill_sphere(xyz,
+                    fillers.fill_sphere(xyz + delta,
                                         self.sphere_radius * multi,
                                         volume,
                                         class_map,
