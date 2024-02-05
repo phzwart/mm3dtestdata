@@ -177,9 +177,10 @@ def build_composite_material_actions_XCT_SEM_EDX(composite_name,
             for item in this_material:
                 if item[0:2] in elements:
                     indx = elements.index(item[0:2])
-                    element_counter[indx] = this_material[item]
+                    element_counter[indx] += this_material[item]
             element_class_action.append(element_counter)
-    element_class_action = np.column_stack(element_class_action).T
+    element_class_action = np.column_stack(element_class_action)
+    print(element_class_action)
     return class_action_tomo, element_class_action
 
 
