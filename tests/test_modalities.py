@@ -23,7 +23,7 @@ def test_build_mode():
     _, _, class_map = obj.fill()
     new_class_map = blur.blur_it(class_map, 0.5)
 
-    class_actions = np.array([[0],[0],[1.0],[4.0]])
+    class_actions = np.array([[0],[0],[1.0],[4.0]]).T
 
     modality_map = modalities.compute_weighted_map(new_class_map,class_actions)
     slicer = cutter.schaaf(modality_map)
@@ -34,7 +34,7 @@ def test_build_mode():
     ref_cs1 = "71511f711ef2d757493dfee1e350f22327bc3826da8f98c351d8ef22d95b1a0a"
     assert cs1 == ref_cs1
 
-    class_actions = np.array([[0,0],[0,1],[1.0,0.1],[4.0,0.5]])
+    class_actions = np.array([[0,0],[0,1],[1.0,0.1],[4.0,0.5]]).T
     modality_map = modalities.compute_weighted_map(new_class_map,class_actions)
     slicer = cutter.schaaf(modality_map)
     plakje = slicer.plakje((1,0,0), (16,16,16), 32, 1, modality_map)

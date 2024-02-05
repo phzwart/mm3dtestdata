@@ -10,7 +10,7 @@ def test_materials():
     semedx = np.array([[ 0. ,  0. ,  0. ],
                       [ 0. ,  0. ,  0. ],
                       [44.1,  0. ,  0. ],
-                      [27.6,  9.2,  9.2]])
+                      [27.6,  9.2,  9.2]]).T
     a,b = build_composite_material_actions_XCT_SEM_EDX("VEQF", ["Si", "Al", " K"])
     assert np.sum(np.abs(a-tomo)) < 1e-4
     assert np.sum(np.abs(semedx-b)) < 1e-4
@@ -21,7 +21,7 @@ def test_materials():
     semedx = np.array([[ 0.,   0.,   0. ],
                        [ 0.,   0.,   0. ],
                        [ 0.,   0.,  44.1],
-                       [ 9.2, 9.2, 27.6]])
+                       [ 9.2, 9.2, 27.6]]).T
 
     assert np.sum(np.abs(a-tomo)) < 1e-4
     assert np.sum(np.abs(semedx-b)) < 1e-4

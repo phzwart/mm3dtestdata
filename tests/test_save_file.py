@@ -26,7 +26,7 @@ def test():
     _, _, class_map = obj.fill()
     new_class_map = blur.blur_it(class_map, 1.0)
 
-    class_actions = np.array([[0,0],[0,1],[1.0,0.1],[4.0,0.5]])
+    class_actions = np.array([[0,0],[0,1],[1.0,0.1],[4.0,0.5]]).T
     modality_map = modalities.compute_weighted_map(new_class_map,class_actions)
 
     save_file.save_as_omezarr(modality_map,"test.zarr",max_layer=3)

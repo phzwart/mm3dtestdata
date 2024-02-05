@@ -24,12 +24,12 @@ def test():
     _, _, class_map = obj.fill()
     new_class_map = blur.blur_it(class_map, 0.5)
 
-    class_actions = np.array([[0,0],[0,1],[1.0,0.1],[4.0,0.5]])
+    class_actions = np.array([[0,0],[0,1],[1.0,0.1],[4.0,0.5]]).T
     modality_map = modalities.compute_weighted_map(new_class_map,class_actions)
     slicer = cutter.schaaf(modality_map)
     plakje = slicer.plakje((1,0,0), (16,16,16), 32, 1, modality_map)
 
-    n_plakje = plakje + noise.noise(plakje, 0.2, 0.05)
+    n_plakje = plakje + noise(plakje, 0.2, 0.05)
 
     cs1 = utils.compute_checksum(utils.array_to_ascii_art(n_plakje[0]))
     cs2 = utils.compute_checksum(utils.array_to_ascii_art(n_plakje[1]))
@@ -42,7 +42,7 @@ def test():
 
 
     tmp = np.ones(100000)
-    delta = noise.noise(tmp, 1.0, 0.0)
+    delta = noise(tmp, 1.0, 0.0)
     assert abs( np.mean(delta) - np.sqrt(np.pi/2) ) < 0.005
 
 
