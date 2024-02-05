@@ -10,7 +10,6 @@ def compute_weighted_map(class_map, class_action):
         # Reshape to (C, 1) for compatibility with tensordot
         class_action = class_action[:, np.newaxis]
 
-    print(class_map.shape, class_action.shape)
     weighted_actions = np.tensordot(class_action, class_map,axes=([1], [0]))
 
     # If class_action was originally (C,), we might need to squeeze the extra dimension out
@@ -22,8 +21,6 @@ def compute_weighted_map(class_map, class_action):
 
 def build_material_maps_XCT_SEM_EDX(class_map, name, elements = ["Si", "Ca", "Fe", "Al"]):
     tomo, semedx = build_composite_material_actions_XCT_SEM_EDX(name, elements)
-    print(tomo.shape, class_map.shape)
-
     tomo_map = compute_weighted_map(class_map, tomo)
     sem_map = compute_weighted_map(class_map, semedx)
     return tomo_map, sem_map, elements
